@@ -27,8 +27,8 @@ int partition(int array[], int low_idx, int high_idx)
 	int pivot = array[high_idx];
 	int i = low_idx - 1;
 	int j;
-
-	for (j = low_idx; j < high_idx; j++)
+    
+	for (j = low_idx; j <= high_idx; j++)  
 	{
 		if (array[j] <= pivot)
 		{
@@ -41,7 +41,6 @@ int partition(int array[], int low_idx, int high_idx)
 	print_array(array, high_idx + 1);
 	return (i + 1);
 }
-
 /**
  * quick_sort_helper - Recursive helper function for Quick sort
  *
