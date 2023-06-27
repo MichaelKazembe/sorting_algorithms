@@ -23,7 +23,7 @@ void selection_sort(int *array, size_t size)
 {
 	size_t i, j, min_index;
 
-	if (array == NULL || size <= 1)
+	if (array == NULL || size < 2)
 	{
 		return;
 	}
@@ -39,7 +39,7 @@ void selection_sort(int *array, size_t size)
 				min_index = j;
 			}
 		}
-		if (min_index != i)
+		if (array[min_index] != array[I])
 		{
 			swap(&array[i], &array[min_index]);
 			print_array(array, size);
