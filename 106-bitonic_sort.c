@@ -3,9 +3,9 @@
 /**
  * swap - Swaps two integers
  * @swap1: Pointer to the first integer
- * @b: Pointer to the second integer
+ * @swap2: Pointer to the second integer
  */
-void swap(int *swap1, int *b)
+void swap(int *swap1, int *swap2)
 {
 	int temp = *swap1;
 	*swap1 = *swap2;
