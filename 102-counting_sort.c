@@ -1,68 +1,76 @@
 #include "sort.h"
 
 /**
- * counting_sort - Sorts an array of integers using Counting sort algorithm
+ * get_maximum - Get the max value in an array of integers.
+ * @array: An array of integers.
+ * @size: The size of the array.
  *
- * @array: The array to be sorted
- * @size: Number of elements in the array
+ * Return: The max integer in the array.
  */
-void counting_sort(int *array, size_t size)
+int get_maximum(int *array, int size)
 {
-	size_t max = array[0];
-	size_t i, j;
-	int *count, *output;
+	int max;
+	int i;
 
-	for (i = 1; i < size; i++)
+	for (max = array[0], i = 1; i < size; i++)
 	{
 		if (array[i] > max)
 			max = array[i];
 	}
 
-	count = malloc((max + 1) * sizeof(int));
+	return (max);
+}
+
+/**
+ * counting_sort - Sort an array of integers in ascending order
+ *                 using the counting sort algorithm
+ * @array: an array of integers.
+ * @size: size of the array.
+ *
+ * Description: Prints the counting array after setting it up.
+ */
+
+void counting_sort(int *array, size_t size)
+{
+	int *count, *output, max;
+	int i;
+
+	if (array == NULL || size < 2)
+		return;
+
+	output = malloc(sizeof(int) * size);
+
+	if (output == NULL)
+		return;
+
+	max = get_maximum(array, size);
+	count = malloc(sizeof(int) * (max + 1));
+
 	if (count == NULL)
 	{
+		free(output);
 		return;
 	}
 
-	for (i = 0; i <= max; i++)
-	{
+	for (i = 0; i < (max + 1); i++)
 		count[i] = 0;
+
+	for (i = 0; i < (int)size; i++)
+		count[array[i]] += 1;
+
+	for (i = 0; i < (max + 1); i++)
+		count[i] += count[i - 1];
+	print_array(count, max + 1);
+
+	for (i = 0; i < (int)size; i++)
+	{
+		output[count[array[i]] - 1] = array[i];
+		count[array[i]] -= 1;
 	}
 
-	for (i = 0; i < size; i++)
-	{
-		count[array[i]]++;
-	}
-
-	for (i = 0; i <= max; i++)
-	{
-		print_array(array, size);
-	}
-
-
-	output = malloc(size * sizeof(int));
-	if (output == NULL)
-	{
-		free(count);
-		return;
-	}
-
-	j = 0;
-	for (i = 0; i <= max; i++)
-	{
-		while (count[i] > 0)
-		{
-			output[j] = i;
-			count[i]--;
-			j++;
-		}
-	}
-
-	for (i = 0; i < size; i++)
-	{
+	for (i = 0; i < (int)size; i++)
 		array[i] = output[i];
-	}
 
-	free(count);
 	free(output);
+	free(count);
 }
