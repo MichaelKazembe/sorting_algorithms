@@ -4,7 +4,7 @@
  * swap - Swaps two integers
  *
  * @swap1: First integer to swap
- * @bswap2 Second integer to swap
+ * @swap2: Second integer to swap
  */
 void swap(int *swap1, int *swap2)
 {
