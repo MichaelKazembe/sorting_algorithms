@@ -17,58 +17,69 @@ void swap(int *swap1, int *swap2)
  * partition - Lomuto partition scheme
  *
  * @array: The array to be sorted
- * @low_idx: Starting index of the partition
- * @high_idx: Ending index of the partition
+ * @size: Size of the array
+ * @left: Starting index of the partition
+ * @right: Ending index of the partition
  *
  * Return: Index of the pivot element
  */
-int partition(int array[], int low_idx, int high_idx)
+int partition(int *array, size_t size, int left, int right)
 {
-	int pivot = array[high_idx];
-	int i = low_idx - 1;
-	int j;
+	int *pivot;
+	int low_idx, high_idx;
 
-	for (j = low_idx; j <= high_idx; j++)
+	pivot = array + right;
+	for (high_idx = low_idx = left; low_idx <= right; low_idx++)
 	{
-		if (array[j] <= pivot)
+		if (array[low_idx] < *pivot)
 		{
-			i++;
-			swap(&array[i], &array[j]);
-			print_array(array, high_idx + 1);
+			if (high_idx < low_idx)
+			{
+				swap(array + low_idx, array + high_idx);
+				print_array(array, size);
+			}
+			high_idx++;
 		}
 	}
-	swap(&array[i + 1], &array[high_idx]);
-	print_array(array, high_idx + 1);
-	return (i + 1);
-}
-/**
- * quick_sort_helper - Recursive helper function for Quick sort
- *
- * @array: The array to be sorted
- * @low_idx: Starting index of the partition
- * @high_idx: Ending index of the partition
- */
-void quick_sort_helper(int *array, int low_idx, int high_idx)
-{
-	if (low_idx < high_idx)
-	{
-		int pi = partition(array, low_idx, high_idx);
 
-		quick_sort_helper(array, low_idx, pi - 1);
-		quick_sort_helper(array, pi + 1, high_idx);
+	if (array[high_idx] > *pivot)
+	{
+		swap(array + high_idx, pivot);
+		print_array(array, size);
+	}
+
+	return (high_idx);
+}
+
+/**
+ * sort_helper - Recursive helper function for quicksort.
+ * @array: The array to be sorted.
+ * @size: The size of the array.
+ * @left: The starting index of the partition to order.
+ * @right: The ending index of the partition to order.
+ */
+void sort_helper(int *array, size_t size, int left, int right)
+{
+	int pi;
+
+	if (right - left > 0)
+	{
+		pi = partition(array, size, left, right);
+		sort_helper(array, size, left, pi - 1);
+		sort_helper(array, size, pi + 1, right);
 	}
 }
 
 /**
- * quick_sort - Sorts an array of integers in ascending order using Quick sort
- *
- * @array: The array to be sorted
- * @size: Number of elements in the array
+ * quick_sort - Sort an array of integers in ascending
+ *              order using the quicksort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
  */
 void quick_sort(int *array, size_t size)
 {
 	if (array == NULL || size < 2)
 		return;
 
-	quick_sort_helper(array, 0, size - 1);
+	sort_helper(array, size, 0, size - 1);
 }
