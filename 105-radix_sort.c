@@ -18,7 +18,7 @@ int max_number(int *array, size_t size)
 			max = array[i];
 	}
 
-	return max;
+	return (max);
 }
 
 /**
@@ -35,8 +35,8 @@ void count_sort(int *array, size_t size, int exp)
 
 	if (output == NULL)
 	{
-	    fprintf(stderr, "Memory allocation failed\n");
-	    return;
+		fprintf(stderr, "Memory allocation failed\n");
+		return;
 	}
 
 	for (i = 0; i < size; i++)
